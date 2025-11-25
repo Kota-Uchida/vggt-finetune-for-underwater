@@ -1,7 +1,7 @@
 # README.md
 
 ## What does this repository for?
-This repository is made for generating synthesized underwater scene data with Infinigen, and directory use it for the finetuning of VGGT. Further extension to training other models will be updated.
+This repository is made for generating synthesized underwater scene data with Infinigen, and directory use it for the finetuning of VGGT. Note that we depend on external repository of Infinigen and VGGT. They are used in this repo under license.
 
 ## How can I use this?
 On the top directory, you will find 4 codes, ``manipulate_gin.py``,``implement_infinigen.sh``, ``preprocess_infinigen.py``, ``train_vggt.sh``. Unless you want to inspect the internal mechanism of these codes, all you need to manipulate is only these codes!
