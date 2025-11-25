@@ -1,0 +1,38 @@
+{
+    "name": "vggt-infinigen-dev",
+    "image": "pytorch-nvidia-colmap",
+    "containerUser": "user",
+    "remoteUser": "user",
+    "runArgs": [
+        "--network=host",
+        "--user=1000:1000",
+        "--runtime=nvidia",
+        "--device=/dev/:/dev/",
+        "--env", "NVIDIA_VISIBLE_DEVICES=all",
+        "--env", "NVIDIA_DRIVER_CAPABILITIES=all",
+        "--env", "__NV_PRIME_RENDER_OFFLOAD=1",
+        "--env", "__GLX_VENDOR_LIBRARY_NAME=nvidia",
+        "--env", "TZ=America/New_York",
+        "--env", "DEBIAN_FRONTEND=noninteractive",
+        "--env", "QT_X11_NO_MITSHM=1"
+    ],
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}",
+        "TERM": "${localEnv:TERM}"
+    },
+    "mounts": [
+        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+        "source=/etc/localtime,target=/etc/localtime,type=bind,readonly",
+        "source=/dev/,target=/dev/,type=bind",
+        "source=/home/mrg/vggt-finetune/,target=/home/user/vggt-finetune/,type=bind"
+    ],
+    "workspaceFolder": "/home/user/vggt-finetune",
+    "hostRequirements": {
+        "gpu": true
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": []
+        }
+    }
+}

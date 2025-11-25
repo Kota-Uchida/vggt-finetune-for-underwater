@@ -1,0 +1,40 @@
+version: '3.8' # Specifies the version of the Docker Compose file format
+
+services:
+  pytorch: # Service name
+    image: pytorch-nvidia-colmap
+    container_name: vggt-infinigen # Sets the container name to "vggt-infinigen"
+    network_mode: host # Uses the host's networking stack (container shares the host's network)
+    user: "1000:1000"  # Use the same UID:GID as your non-root user
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix # Mounts the X11 Unix socket for GUI applications
+      - /etc/localtime:/etc/localtime:ro # Mounts the local timezone file in read-only mode to sync container time
+      - /dev/:/dev/ # Mounts the /dev directory to access host devices
+      # Map the host directory to the container's working directory
+      # ./path/on/host:/new/workdir/path # Change the paths as needed
+      - /home/mrg/vggt-finetune/:/home/user/vggt-finetune/  # Match the working directory
+    environment:
+      - DISPLAY # Passes the DISPLAY environment variable for X11 forwarding
+      - TERM # Passes the TERM environment variable for terminal settings
+      - QT_X11_NO_MITSHM=1 # Prevents MIT-SHM extension usage for X11, useful for remote displays
+      - NVIDIA_VISIBLE_DEVICES=all # Makes all NVIDIA devices visible to the container
+      - NVIDIA_DRIVER_CAPABILITIES=all # Grants all NVIDIA driver capabilities to the container
+      - __NV_PRIME_RENDER_OFFLOAD=1 # Enables NVIDIA PRIME render offload
+      - __GLX_VENDOR_LIBRARY_NAME=nvidia # Specifies the GLX vendor library to use (NVIDIA)
+      - TZ=America/New_York # Set timezone to avoid tzdata prompt (change to your timezone if needed)
+      - DEBIAN_FRONTEND=noninteractive # Suppress interactive prompts during apt-get
+    tty: true # Allocates a TTY for the container, useful for interactive shells
+    stdin_open: true # Keeps stdin open to support interactive processes
+    devices:
+      - /dev/:/dev/ # Maps the /dev directory to access host devices (repeated for completeness)
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia # Specifies the NVIDIA driver
+              count: all # Allocates all available GPUs
+              capabilities: [gpu] # Requests GPU capabilities
+    runtime: nvidia # Uses the NVIDIA runtime for GPU support
+
+    # Set the new working directory here
+    # working_dir: /

@@ -1,0 +1,6 @@
+[submodule "infinigen"]
+	path = infinigen
+	url = git@github.com:Kota-Uchida/infinigen.git
+[submodule "vggt"]
+	path = vggt
+	url = git@github.com:facebookresearch/vggt.git
