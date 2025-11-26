@@ -1,6 +1,6 @@
 # README.md
 
-## What does this repository for?
+## What is this repository for?
 This repository is made for generating synthesized underwater scene data with Infinigen, and directory use it for the finetuning of VGGT. Note that we depend on external repository of Infinigen and VGGT. They are used in this repo under license.
 
 ## How can I use this?
