@@ -1,6 +1,6 @@
 {
     "name": "vggt-infinigen-dev",
-    "image": "pytorch-nvidia-colmap",
+    "image": "vggt-infinigen",
     "containerUser": "user",
     "remoteUser": "user",
     "runArgs": [
@@ -24,9 +24,9 @@
         "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
         "source=/etc/localtime,target=/etc/localtime,type=bind,readonly",
         "source=/dev/,target=/dev/,type=bind",
-        "source=/home/mrg/vggt-finetune/,target=/home/user/vggt-finetune/,type=bind"
+        "source=/home/kota/vggt-finetune-for-underwater/,target=/home/kota/vggt-finetune-for-underwater/,type=bind"
     ],
-    "workspaceFolder": "/home/user/vggt-finetune",
+    "workspaceFolder": "/home/user/vggt-finetune-for-underwater",
     "hostRequirements": {
         "gpu": true
     },

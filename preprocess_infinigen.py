@@ -59,23 +59,18 @@ def get_parser():
 
 def infinigen_to_co3dformat(args):
     os.makedirs(os.path.join(args.data_output_dir, args.category), exist_ok=True)
-    os.makedirs(os.path.join(args.annotation_output_dir, args.category), exist_ok=True)
-
-    path_to_annotation_category = os.path.join(
-        args.annotation_output_dir, args.category
-    )
 
     annotation_train_path_jgz = os.path.join(
-        path_to_annotation_category, f"{args.category}_train.jgz"
+        args.annotation_output_dir, f"{args.category}_train.jgz"
     )
     annotation_test_path_jgz = os.path.join(
-        path_to_annotation_category, f"{args.category}_test.jgz"
+        args.annotation_output_dir, f"{args.category}_test.jgz"
     )
     annotation_train_path_json = os.path.join(
-        path_to_annotation_category, f"{args.category}_train.json"
+        args.annotation_output_dir, f"{args.category}_train.json"
     )
     annotation_test_path_json = os.path.join(
-        path_to_annotation_category, f"{args.category}_test.json"
+        args.annotation_output_dir, f"{args.category}_test.json"
     )
 
     annotations_train = {}
@@ -179,16 +174,17 @@ def infinigen_to_co3dformat(args):
             # Rename/move RGB
             rgb_src = os.path.join(rgb_dir, rgb_files[i])
             segment_src = os.path.join(segment_dir, segment_files[i])
+            # Rename/move Depth and Depth masks
+            depth_src = os.path.join(depth_dir, depth_files[i])
+
             rgb_dst_name = f"rgb_{i:06d}.png"
             rgbmask_name = f"rgb_{i:06d}_mask.png"
             rgb_dst = os.path.join(rgb_destination, rgb_dst_name)
             rgbmask_dst = os.path.join(mask_destination, rgbmask_name)
             shutil.copy2(rgb_src, rgb_dst)
-            generate_mask(segment_src, rgbmask_dst)
+            generate_mask(segment_src, rgbmask_dst, depth_src, object_id=None)
 
-            # Rename/move Depth and Depth masks
-            depth_src = os.path.join(depth_dir, depth_files[i])
-            # For some reason, vggt trainer expects depth files to be named like this;
+            # vggt trainer expects depth files to be named like this;
             depth_dst_name = f"rgb_{i:06d}.png.geometric.png"
             depthmask_dst_name = f"rgb_{i:06d}.png"
             depth_dst = os.path.join(depth_destination, depth_dst_name)
@@ -226,8 +222,7 @@ def infinigen_to_co3dformat(args):
         json.dump(annotations_test, f, indent=2)
 
 
-def generate_mask(segment_path, mask_path, object_id=None):
-    # TODO: Make accurate mask to enhance the quality
+def generate_mask(segment_path, mask_path, depth_path, object_id=None):
     segment = np.load(segment_path)  # Load the segmentation data
     segment = np.nan_to_num(segment)  # Replace NaNs with 0, or adjust accordingly
 
@@ -235,6 +230,18 @@ def generate_mask(segment_path, mask_path, object_id=None):
         mask = (segment > 0).astype(np.uint8) * 255
     else:
         mask = (segment == object_id).astype(np.uint8) * 255
+
+    # Exclude terrain (ID 91) 
+    mask[segment == 91] = 0
+
+    # Exclude too distant regions
+    depth = np.load(depth_path)
+    depth_min = depth.min()
+    depth_max = depth.max()
+    depth_threshold = depth_min + 0.6 * (depth_max - depth_min)
+    mask[depth > depth_threshold] = 0
+    mask[depth > 7.5] = 0
+    
     cv2.imwrite(mask_path, mask)
 
 
@@ -263,8 +270,14 @@ def convert_depth_npy_to_geometric_png(
     depth_mask[depth == 0] = 0  # Mask out regions with 0 depth (e.g., background)
     depth_mask[np.isnan(depth)] = 0  # Mask out NaN regions if any
 
-    cv2.imwrite(depthmask_path, depth_mask * 255)
+    # Exclude too distant regions
+    depth_min = depth.min()
+    depth_max = depth.max()
+    depth_threshold = depth_min + 0.6 * (depth_max - depth_min)
+    depth_mask[depth > depth_threshold] = 0
+    depth_mask[depth > 7.5] = 0
 
+    cv2.imwrite(depthmask_path, depth_mask * 255)
 
 if __name__ == "__main__":
     args = get_parser().parse_args()

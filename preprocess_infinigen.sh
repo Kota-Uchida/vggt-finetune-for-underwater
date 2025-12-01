@@ -1,7 +1,7 @@
 #!/bin/bash
 
 python preprocess_infinigen.py \
-    --infinigen_data_dir infinigen/outputs/coral_0 \
+    --infinigen_data_dir infinigen/outputs/coral_1 infinigen/outputs/coral_2 infinigen/outputs/coral_8 \
     --data_output_dir data \
     --annotation_output_dir annotations \
     --category coral \

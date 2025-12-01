@@ -1,8 +1,6 @@
-version: '3.8' # Specifies the version of the Docker Compose file format
-
 services:
-  pytorch: # Service name
-    image: pytorch-nvidia-colmap
+  vggt-infinigen: # Service name
+    image: vggt-infinigen
     container_name: vggt-infinigen # Sets the container name to "vggt-infinigen"
     network_mode: host # Uses the host's networking stack (container shares the host's network)
     user: "1000:1000"  # Use the same UID:GID as your non-root user
@@ -12,7 +10,7 @@ services:
       - /dev/:/dev/ # Mounts the /dev directory to access host devices
       # Map the host directory to the container's working directory
       # ./path/on/host:/new/workdir/path # Change the paths as needed
-      - /home/mrg/vggt-finetune/:/home/user/vggt-finetune/  # Match the working directory
+      - /home/kota/vggt-finetune-for-underwater/:/home/user/vggt-finetune-for-underwater/  # Match the working directory
     environment:
       - DISPLAY # Passes the DISPLAY environment variable for X11 forwarding
       - TERM # Passes the TERM environment variable for terminal settings

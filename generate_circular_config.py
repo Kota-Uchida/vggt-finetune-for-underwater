@@ -6,28 +6,28 @@ from typing import Tuple
 """
 Parameters for coral reef
 """
-# n_of_cams = 9
-# z_focus_bound = (-18.0, -17.0)
-# x_center_bound = (-10.0, 10.0)
-# y_center_bound = (-10.0, 10.0)
-# z_center_bound = (-16.5, -15.5)
-# radius_bound = (3.0, 7.0)
-# angular_velocity_bound = (0.08, 0.15)
-# base_config_dir = "infinigen/infinigen_examples/configs_nature"
-# output_name = "circular_coral_9.gin"
+n_of_cams = 9
+z_focus_bound = (-16.5, -16.0)
+x_center_bound = (-10.0, 10.0)
+y_center_bound = (-10.0, 10.0)
+z_center_bound = (-15.5, -15.0)
+radius_bound = (3.0, 4.0)
+angular_velocity_bound = (0.2, 0.3)
+base_config_dir = "infinigen/infinigen_examples/configs_nature"
+output_name = "circular_coral_9.gin"
 
 """
 Paramters for desert
 """
-n_of_cams = 9
-z_focus_bound = (5.0, 5.5)
-x_center_bound = (-2.0, 2.0)
-y_center_bound = (-2.0, 2.0)
-z_center_bound = (6.0, 6.5)
-radius_bound = (3.0, 5.0)
-angular_velocity_bound = (0.08, 0.15)
-base_config_dir = "infinigen/infinigen_examples/configs_nature"
-output_name = "circular_desert_9.gin"
+# n_of_cams = 9
+# z_focus_bound = (5.0, 5.5)
+# x_center_bound = (-2.0, 2.0)
+# y_center_bound = (-2.0, 2.0)
+# z_center_bound = (6.0, 6.5)
+# radius_bound = (3.0, 5.0)
+# angular_velocity_bound = (0.08, 0.15)
+# base_config_dir = "infinigen/infinigen_examples/configs_nature"
+# output_name = "circular_desert_9.gin"
 
 
 
@@ -68,7 +68,7 @@ def generate_config(
         radius = random_in_bounds(radius_bound)
 
         # The focus point should be within 60 percent the radius from center point.
-        max_xy_focus_distance = 0.6 * radius
+        max_xy_focus_distance = 0.5 * radius
         # Define the focus point bound from this condition
         x_focus_bound = (
             center_points[0] - max_xy_focus_distance,

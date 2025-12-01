@@ -1,5 +1,5 @@
 # Use NVIDIA's official CUDA image as the base
-FROM nvidia/cuda:13.0.2-cudnn-devel-ubuntu22.04
+FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 
 # Create a non-root user and set the user ID and group ID
 ARG USER=user
@@ -78,8 +78,8 @@ RUN apt-get update && apt-get remove -y libprotobuf-dev protobuf-compiler \
 # PyTorch + extras (CUDA wheel will match the base CUDA where possible)
 # RUN pip3 install --no-cache-dir torch torchvision torchaudio
 RUN pip3 install --no-cache-dir --pre \
-    torch torchvision torchaudio \
-    --index-url https://download.pytorch.org/whl/nightly/cu130
+    torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0  \
+     --index-url https://download.pytorch.org/whl/cu124
 
 
 # Because of the build error, I temporally commented out the following line.
