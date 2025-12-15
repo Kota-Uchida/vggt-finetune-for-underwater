@@ -6,7 +6,7 @@ import re
 # Configurable Parameters
 ################
 infinigen_output_dir = 'infinigen/outputs/'
-target_dir_list = ['coral_2']
+target_dir_list = ['coral_5']
 
 def preprocess_cam_dir(infinigen_output_dir, target_dir_list):
     for target_dir in target_dir_list:

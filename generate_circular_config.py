@@ -7,12 +7,12 @@ from typing import Tuple
 Parameters for coral reef
 """
 n_of_cams = 9
-z_focus_bound = (-16.5, -16.0)
-x_center_bound = (-10.0, 10.0)
-y_center_bound = (-10.0, 10.0)
+z_focus_bound = (-17.5, -17.0)
+x_center_bound = (-8.0, 8.0)
+y_center_bound = (-8.0, 8.0)
 z_center_bound = (-15.5, -15.0)
-radius_bound = (3.0, 4.0)
-angular_velocity_bound = (0.2, 0.3)
+radius_bound = (3.0, 5.0)
+angular_velocity_bound = (0.3, 0.4)
 base_config_dir = "infinigen/infinigen_examples/configs_nature"
 output_name = "circular_coral_9.gin"
 
