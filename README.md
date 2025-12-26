@@ -6,8 +6,6 @@ This repository is made for generating synthesized underwater scene data with In
 ## How can I use this?
 On the top directory, you will find 4 codes, ``manipulate_gin.py``,``implement_infinigen.sh``, ``preprocess_infinigen.py``, ``train_vggt.sh``. Unless you want to inspect the internal mechanism of these codes, all you need to manipulate is only these codes!
 
-The whole process can be broken down into 4 steps.
-
 ### 1. Prepare gin file
 Infinigen exploits numbers of gin files to manage the paremeters. There are several configurations you should always include, and one of them is "the camera configurations". In order to generate camera configuration file for your settings, you can use ``generate_circular_config.py``. You can configure the parameter inside the code.
 
