@@ -28,4 +28,7 @@ If you are keeping the directory tree as it is, you can use ``preprocess_infinig
 ### 5. Implement VGGT model
 Now your VGGT model is ready. There are several demo code to try using vggt on your own data. ``demo_viser.sh`` does forward pass of the image data and you can see the reconstructed 3d scene on viser. ``demo_colmap.sh`` does forward pass, and it produces estimated depth and pointcloud data in the colmap format.
 
+## What is customized about Infinigen
+These codes assumes the use of customized infinigen registered as a submodule. Refer to ``infinigen.md`` for explanation.
+
 
