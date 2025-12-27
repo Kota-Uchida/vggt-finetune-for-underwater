@@ -13,6 +13,7 @@ y_center_bound = (-8.0, 8.0)
 z_center_bound = (-15.5, -15.0)
 radius_bound = (3.0, 5.0)
 angular_velocity_bound = (0.3, 0.4)
+focal_length_bound = (50, 60)
 base_config_dir = "infinigen/infinigen_examples/configs_nature"
 output_name = "circular_coral_9.gin"
 
@@ -38,7 +39,8 @@ def generate_config(
         y_center_bound: Tuple[float, float],
         z_center_bound: Tuple[float, float],
         radius_bound: Tuple[float, float],
-        angular_velocity_bound: Tuple[float, float]
+        angular_velocity_bound: Tuple[float, float],
+        focal_length_bound: Tuple[float, float],
 ):
     """
     Generate a circular camera configuration and format it for Gin.
@@ -50,6 +52,7 @@ def generate_config(
         z_center_bound: Tuple defining the z-axis bounds for center point
         radius_bound: Tuple defining the radius bounds for camera trajectory
         angular_velocity_bound: Tuple defining the angular velocity bounds for camera trajectory
+        focal_length_bound: Tuple defining the focal length bounds for each camera
     Return:
         A string formatted for Gin configuration
     """
@@ -88,12 +91,16 @@ def generate_config(
         # Sample angular velocity
         angular_velocity = random_in_bounds(angular_velocity_bound)
 
+        # Sample focal length
+        focal_length = random_in_bounds(focal_length_bound)
+
         # Store it to a dict
         cam_config = {
             'focus': focus_points,
             'center': center_points,
             'radius': radius,
-            'angular_velocity': angular_velocity
+            'angular_velocity': angular_velocity,
+            'focal_length': focal_length,
         }
 
         camera_configs.append(cam_config)
@@ -107,7 +114,7 @@ def generate_config(
             angular_velocity = cfg['angular_velocity']
             config_str += f"    {{'focus': ({focus[0]:.3f}, {focus[1]:.3f}, {focus[2]:.3f}), "
             config_str += f"'center': ({center[0]:.3f}, {center[1]:.3f}, {center[2]:.3f}), "
-            config_str += f"'radius': {radius:.3f}, 'angular_velocity': {angular_velocity:.3f}}},\n"
+            config_str += f"'radius': {radius:.3f}, 'angular_velocity': {angular_velocity:.3f}, 'focal_length': {focal_length:.3f}}},\n"
         config_str += "]\n"
         return config_str
     
@@ -123,7 +130,8 @@ if __name__ == '__main__':
         y_center_bound=y_center_bound,
         z_center_bound=z_center_bound,
         radius_bound=radius_bound,
-        angular_velocity_bound=angular_velocity_bound
+        angular_velocity_bound=angular_velocity_bound,
+        focal_length_bound= focal_length_bound,
     )
     
     output_path = os.path.join(base_config_dir, output_name)
@@ -131,6 +139,6 @@ if __name__ == '__main__':
         f.write(gin_config_str)
 
     print(f"Generated configuration saved to {output_path}")
-    print(f"Configuration conditions: n_of_cams={n_of_cams}, z_focus_bound={z_focus_bound}, x_center_bound={x_center_bound}, y_center_bound={y_center_bound}, z_center_bound={z_center_bound}, radius_bound={radius_bound}, angular_velocity_bound={angular_velocity_bound}")
+    print(f"Configuration conditions: n_of_cams={n_of_cams}, z_focus_bound={z_focus_bound}, x_center_bound={x_center_bound}, y_center_bound={y_center_bound}, z_center_bound={z_center_bound}, radius_bound={radius_bound}, angular_velocity_bound={angular_velocity_bound}, focal_length_bound={focal_length_bound}")
 
 
